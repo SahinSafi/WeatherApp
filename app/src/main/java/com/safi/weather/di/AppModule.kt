@@ -26,7 +26,4 @@ class AppModule {
     fun providesApiService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
 
-//    @Provides
-//    fun provideProgressDialog(@ApplicationContext context: Context): ProgressDialog =
-//        ProgressDialog(context)
 }
