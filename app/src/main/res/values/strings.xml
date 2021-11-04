@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="degree_symbol">°</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
