@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.getCityData(this)
+        viewModel.getCityData()
         adapter = WeatherAdapter(this)
 
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding.weatherRV.adapter = adapter
 
         binding.refresh.setOnRefreshListener {
-            viewModel.getCityData(this)
+            viewModel.getCityData()
         }
     }
 

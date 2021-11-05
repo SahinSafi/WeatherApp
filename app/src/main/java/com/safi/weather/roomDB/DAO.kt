@@ -3,6 +3,7 @@ package com.safi.assignment.roomDB
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.safi.assignment.roomDB.tables.WeatherTable
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DAO {
@@ -14,6 +15,6 @@ interface DAO {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM city")
-    fun getAllWeather(): LiveData<List<WeatherTable>>
+    fun getAllWeather(): List<WeatherTable>
 
 }
