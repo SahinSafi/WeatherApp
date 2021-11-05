@@ -44,7 +44,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.cityName.text = cityDetails.name
         binding.temperature.text = ((cityDetails.main?.temp!! - 273.15F).toInt().toString())+"°c"
         binding.maxTemp.text = "Max temp: "+((cityDetails.main?.tempMax!! - 273.15F).toInt().toString())+"°c"
-        binding.minTemp.text = "Max temp: "+((cityDetails.main?.tempMin!! - 273.15F).toInt().toString())+"°c"
+        binding.minTemp.text = "Min temp: "+((cityDetails.main?.tempMin!! - 273.15F).toInt().toString())+"°c"
         binding.humidity.text = "Humidity: "+ cityDetails.main?.humidity.toString()
         binding.description.text = cityDetails.weather!![0].description
         binding.speed.text = "Wind speed: "+cityDetails.wind?.speed.toString()
