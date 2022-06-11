@@ -22,8 +22,8 @@ abstract class NetworkBoundResource<ResultType> {
             _result.value = ApiResponse.loading(true)
             flow {
                 emit(createCall())
-            }.catch { response ->
-                _result.value = ApiResponse.failure(message(response))
+            }.catch { exception ->
+                _result.value = ApiResponse.failure(message(exception))
                 _result.value = ApiResponse.loading(false)
             }.collect { response ->
                 _result.value = ApiResponse.success(response)
