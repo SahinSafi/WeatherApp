@@ -3,6 +3,7 @@ package com.safi.weather.mainActivity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.safi.weather.databinding.ActivityMainBinding
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.onCityListFailedLiveData.observe(this) {
             binding.refresh.isRefreshing = false
-            Log.i("CheckData", "liveDataListener: $it")
+            Toast.makeText(this, it , Toast.LENGTH_LONG).show()
         }
 
     }
