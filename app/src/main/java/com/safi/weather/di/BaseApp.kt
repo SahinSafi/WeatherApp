@@ -1,4 +1,4 @@
-package com.safi.hilt.di
+package com.safi.weather.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

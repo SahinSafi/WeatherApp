@@ -1,19 +1,17 @@
 package com.safi.weather.mainActivity
 
-import android.app.Application
-import androidx.lifecycle.*
-import com.safi.assignment.roomDB.RoomDB
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.safi.assignment.roomDB.tables.WeatherTable
 import com.safi.weather.mainActivity.dataModel.WeatherModel
+import com.safi.weather.network.core.ApiResponse
 import com.safi.weather.network.ServerDataRepo
 import com.safi.weather.roomDB.RoomDataRepo
 import com.safi.weather.utils.CommonMethods
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,24 +22,26 @@ class MainViewModel @Inject constructor(
     private val commonMethods: CommonMethods
 ) : ViewModel() {
 
-    val onProgress = MutableLiveData<Boolean>()
-    val onCityListSuccess = MutableLiveData<List<WeatherModel.CityList>>()
-    val onCityListFailed = MutableLiveData<String>()
+    private val _onProgressLiveData = MutableLiveData<Boolean>()
+    val onProgressLiveData : LiveData<Boolean> = _onProgressLiveData
+    private val _onCityListSuccessLiveData = MutableLiveData<List<WeatherModel.CityList>>()
+    val onCityListSuccessLiveData : LiveData<List<WeatherModel.CityList>> = _onCityListSuccessLiveData
+    private val _onCityListFailedLiveData = MutableLiveData<String>()
+    val onCityListFailedLiveData : LiveData<String> = _onCityListFailedLiveData
 
     fun getCityData() {
-        onProgress.postValue(true)
-
         viewModelScope.launch {
             if (commonMethods.isOnline()) {
-                serverDataRepo.getCityList("23.68", "90.35", "50") //hard code
-                    .catch {
-                        onProgress.postValue(false)
-                        onCityListFailed.postValue(it.message)
-                    }.collect {
-                        onProgress.postValue(false)
-                        onCityListSuccess.postValue(it.getList() as List<WeatherModel.CityList>?)
-                        storeInRoom(it.getList() as List<WeatherModel.CityList>)
+                serverDataRepo.getCityList("23.68", "90.35", "50").collect { apiResponse ->
+                    when (apiResponse) {
+                        is ApiResponse.Success -> {
+                            _onCityListSuccessLiveData.postValue(apiResponse.data.getList())
+                            storeInRoom(apiResponse.data.getList())
+                        }
+                        is ApiResponse.Failure -> _onCityListFailedLiveData.postValue(apiResponse.message)
+                        is ApiResponse.Progress -> _onProgressLiveData.postValue(apiResponse.progress)
                     }
+                }
             } else {
                 getFromRoom()
             }
@@ -76,8 +76,8 @@ class MainViewModel @Inject constructor(
 
     private fun getFromRoom() {
         val cityList = mutableListOf<WeatherModel.CityList>()
-
         viewModelScope.launch {
+            _onProgressLiveData.postValue(true)
             roomDataRepo.getWeather()
                 .collect {
                     for (item in it) {
@@ -110,8 +110,8 @@ class MainViewModel @Inject constructor(
                         cityList.add(city)
                     }
 
-                    onProgress.postValue(false)
-                    onCityListSuccess.postValue(cityList)
+                    _onProgressLiveData.postValue(false)
+                    _onCityListSuccessLiveData.postValue(cityList)
                 }
         }
 

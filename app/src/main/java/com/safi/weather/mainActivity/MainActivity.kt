@@ -41,18 +41,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun liveDataListener() {
 
-        viewModel.onProgress.observe(this, {
+        viewModel.onProgressLiveData.observe(this) {
             binding.refresh.isRefreshing = it
-        })
+        }
 
-        viewModel.onCityListSuccess.observe(this, {
+        viewModel.onCityListSuccessLiveData.observe(this) {
             adapter.addData(it)
-        })
+        }
 
-        viewModel.onCityListFailed.observe(this, {
+        viewModel.onCityListFailedLiveData.observe(this) {
             binding.refresh.isRefreshing = false
             Log.i("CheckData", "liveDataListener: $it")
-        })
+        }
 
     }
 

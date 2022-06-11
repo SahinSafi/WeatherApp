@@ -1,4 +1,4 @@
-package com.safi.hilt.network
+package com.safi.weather.network
 
 import com.safi.weather.mainActivity.dataModel.WeatherModel
 import retrofit2.http.GET

@@ -1,10 +1,10 @@
-package com.safi.hilt.di
+package com.safi.weather.di
 
 import android.content.Context
 import androidx.room.Room
 import com.safi.assignment.roomDB.DAO
 import com.safi.assignment.roomDB.RoomDB
-import com.safi.hilt.network.ApiService
+import com.safi.weather.network.ApiService
 import com.safi.weather.roomDB.RoomDataRepo
 import com.safi.weather.utils.Config
 import dagger.Module

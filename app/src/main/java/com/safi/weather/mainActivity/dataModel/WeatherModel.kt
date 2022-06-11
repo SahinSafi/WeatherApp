@@ -23,7 +23,7 @@ class WeatherModel {
 
     @SerializedName("list")
     @Expose
-    private var list: List<CityList?>? = null
+    private var list: List<CityList> = listOf()
 
     fun getMessage(): String? {
         return message
@@ -49,11 +49,11 @@ class WeatherModel {
         this.count = count
     }
 
-    fun getList(): List<CityList?>? {
+    fun getList(): List<CityList> {
         return list
     }
 
-    fun setList(list: List<CityList?>?) {
+    fun setList(list: List<CityList>) {
         this.list = list
     }
 
