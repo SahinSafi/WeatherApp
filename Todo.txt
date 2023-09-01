@@ -1,0 +1,3 @@
+1. Implement version catalog
+2. Update and refactor network calling
+3. Update and refactor architecture
